@@ -1,0 +1,2485 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FINTRACE — AI × Accountant</title>
+
+<style>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #f5f9ff;
+  color: #102a43;
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+nav {
+  height: 70px;
+
+  background: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 7%;
+
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+
+  position: sticky;
+  top: 0;
+
+  z-index: 100;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: bold;
+  color: #075985;
+}
+
+nav a {
+  text-decoration: none;
+  color: #486581;
+
+  margin-left: 25px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+  transition: .2s;
+}
+
+nav a:hover {
+  color: #0284c7;
+}
+
+
+/* =====================================================
+   PAGE
+===================================================== */
+
+.page {
+  display: none;
+
+  min-height: calc(100vh - 70px);
+
+  padding: 60px 8%;
+}
+
+.page.active {
+  display: block;
+}
+
+.container {
+  max-width: 1100px;
+
+  margin: auto;
+}
+
+
+/* =====================================================
+   TYPOGRAPHY
+===================================================== */
+
+.badge {
+  display: inline-block;
+
+  padding: 8px 15px;
+
+  border-radius: 20px;
+
+  background: #e0f2fe;
+
+  color: #0369a1;
+
+  font-size: 13px;
+
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 50px;
+
+  line-height: 1.1;
+
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 32px;
+
+  margin-bottom: 15px;
+}
+
+p {
+  color: #627d98;
+
+  line-height: 1.7;
+}
+
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+button {
+  border: none;
+
+  border-radius: 12px;
+
+  padding: 13px 22px;
+
+  cursor: pointer;
+
+  font-weight: bold;
+
+  transition: .2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+.primary {
+  background: #0369a1;
+
+  color: white;
+}
+
+.secondary {
+  background: #e0f2fe;
+
+  color: #0369a1;
+}
+
+.green {
+  background: #dcfce7;
+
+  color: #15803d;
+}
+
+.yellow {
+  background: #fef3c7;
+
+  color: #b45309;
+}
+
+.red {
+  background: #fee2e2;
+
+  color: #b91c1c;
+}
+
+
+/* =====================================================
+   HOME
+===================================================== */
+
+.hero {
+
+  min-height: calc(100vh - 70px);
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  align-items: center;
+
+  gap: 70px;
+}
+
+.hero-text {
+  max-width: 600px;
+}
+
+.hero-text h1 {
+
+  font-size: 64px;
+
+  letter-spacing: -2px;
+
+  margin-bottom: 15px;
+
+  color: #102a43;
+}
+
+.hero-text h1 span {
+  color: #0284c7;
+}
+
+.hero-text h2 {
+
+  font-size: 31px;
+
+  line-height: 1.25;
+
+  color: #102a43;
+
+  margin-bottom: 20px;
+}
+
+.hero-text p {
+
+  max-width: 560px;
+
+  font-size: 16px;
+}
+
+.small-text {
+
+  margin-top: 8px;
+
+  font-size: 14px !important;
+
+  color: #829ab1 !important;
+}
+
+.hero-buttons {
+
+  display: flex;
+
+  gap: 12px;
+
+  margin-top: 30px;
+}
+
+
+/* =====================================================
+   HOME — DASHBOARD MOCKUP
+===================================================== */
+
+.hero-visual {
+
+  display: flex;
+
+  justify-content: center;
+}
+
+.dashboard-card {
+
+  width: 100%;
+
+  max-width: 500px;
+
+  background: white;
+
+  border-radius: 25px;
+
+  padding: 28px;
+
+  box-shadow:
+    0 25px 60px rgba(3,105,161,.12);
+
+  border: 1px solid #e0f2fe;
+}
+
+
+/* Dashboard Header */
+
+.dashboard-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.dashboard-header small {
+
+  color: #0284c7;
+
+  font-size: 11px;
+
+  font-weight: bold;
+
+  letter-spacing: 1px;
+}
+
+.dashboard-header h3 {
+
+  margin-top: 5px;
+
+  color: #102a43;
+}
+
+.online {
+
+  background: #ecfdf5;
+
+  color: #059669;
+
+  padding: 7px 10px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+
+  font-weight: bold;
+}
+
+
+/* Mini Statistics */
+
+.mini-data {
+
+  display: grid;
+
+  grid-template-columns: repeat(3,1fr);
+
+  gap: 10px;
+
+  margin-top: 20px;
+}
+
+.mini-item {
+
+  background: #f8fafc;
+
+  padding: 15px;
+
+  border-radius: 13px;
+}
+
+.mini-item span {
+
+  display: block;
+
+  font-size: 11px;
+
+  color: #829ab1;
+
+  margin-bottom: 5px;
+}
+
+.mini-item strong {
+
+  font-size: 20px;
+
+  color: #075985;
+}
+
+.mini-item.warning {
+
+  background: #fffbeb;
+}
+
+.mini-item.warning strong {
+
+  color: #d97706;
+}
+
+
+/* Pattern Detection */
+
+.scan-box {
+
+  margin-top: 20px;
+
+  background: #eff6ff;
+
+  border-radius: 16px;
+
+  padding: 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+}
+
+.scan-icon {
+
+  width: 48px;
+
+  height: 48px;
+
+  background: white;
+
+  border-radius: 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 22px;
+}
+
+.scan-box strong {
+
+  color: #075985;
+}
+
+.scan-box p {
+
+  font-size: 12px;
+
+  margin-top: 4px;
+}
+
+
+/* Progress */
+
+.analysis-bar {
+
+  margin-top: 25px;
+}
+
+.bar-title {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  font-size: 12px;
+
+  color: #627d98;
+
+  margin-bottom: 8px;
+}
+
+.bar-title strong {
+
+  color: #0284c7;
+}
+
+.bar {
+
+  height: 8px;
+
+  background: #e0f2fe;
+
+  border-radius: 10px;
+
+  overflow: hidden;
+}
+
+.bar div {
+
+  width: 100%;
+
+  height: 100%;
+
+  background: #0284c7;
+
+  border-radius: 10px;
+}
+
+
+/* Analysis Complete */
+
+.status-card {
+
+  margin-top: 20px;
+
+  padding: 15px;
+
+  border-radius: 14px;
+
+  background: #f0fdf4;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.status-dot {
+
+  width: 12px;
+
+  height: 12px;
+
+  background: #22c55e;
+
+  border-radius: 50%;
+}
+
+.status-card strong {
+
+  font-size: 13px;
+
+  color: #166534;
+}
+
+.status-card p {
+
+  font-size: 11px;
+
+  margin-top: 3px;
+}
+
+
+/* =====================================================
+   GENERAL CARD
+===================================================== */
+
+.card {
+
+  background: white;
+
+  padding: 28px;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 8px 25px rgba(15,23,42,.06);
+
+  margin-top: 25px;
+}
+
+.center {
+  text-align: center;
+}
+
+
+/* =====================================================
+   UPLOAD
+===================================================== */
+
+.upload-box {
+
+  border: 2px dashed #7dd3fc;
+
+  background: #f0f9ff;
+
+  padding: 50px;
+
+  text-align: center;
+
+  border-radius: 20px;
+
+  margin-top: 30px;
+}
+
+.upload-box input {
+
+  margin: 20px;
+}
+
+
+/* =====================================================
+   SCANNING
+===================================================== */
+
+.scan {
+
+  text-align: center;
+
+  padding-top: 70px;
+}
+
+.scanner {
+
+  width: 100px;
+
+  height: 100px;
+
+  border: 8px solid #dbeafe;
+
+  border-top-color: #0284c7;
+
+  border-radius: 50%;
+
+  animation: spin 1s linear infinite;
+
+  margin: 30px auto;
+}
+
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+.scan-list {
+
+  margin: 30px auto;
+
+  max-width: 500px;
+
+  text-align: left;
+}
+
+.scan-list div {
+
+  padding: 12px;
+
+  margin: 7px;
+
+  background: white;
+
+  border-radius: 10px;
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-container {
+
+  overflow-x: auto;
+}
+
+table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  margin-top: 20px;
+}
+
+th,
+td {
+
+  padding: 15px;
+
+  text-align: left;
+
+  border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+
+  background: #f0f9ff;
+
+  color: #075985;
+}
+
+tr.clickable {
+
+  cursor: pointer;
+}
+
+tr.clickable:hover {
+
+  background: #f0f9ff;
+}
+
+.status {
+
+  padding: 7px 12px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+
+  font-weight: bold;
+}
+
+
+/* =====================================================
+   DETAIL
+===================================================== */
+
+.detail-grid {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 20px;
+}
+
+.detail-box {
+
+  padding: 20px;
+
+  border-radius: 15px;
+
+  background: #f8fafc;
+}
+
+
+/* =====================================================
+   AI + ACCOUNTANT
+===================================================== */
+
+.two-column {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 25px;
+}
+
+.column-card {
+
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 8px 25px rgba(15,23,42,.06);
+}
+
+.column-card li {
+
+  list-style: none;
+
+  padding: 10px 0;
+}
+
+
+/* =====================================================
+   VERIFICATION
+===================================================== */
+
+textarea {
+
+  width: 100%;
+
+  min-height: 100px;
+
+  padding: 15px;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 12px;
+
+  resize: vertical;
+
+  margin: 15px 0;
+}
+
+
+/* =====================================================
+   REPORT
+===================================================== */
+
+.stats {
+
+  display: grid;
+
+  grid-template-columns: repeat(4,1fr);
+
+  gap: 15px;
+
+  margin: 30px 0;
+}
+
+.stat {
+
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 18px;
+
+  text-align: center;
+}
+
+.stat h3 {
+
+  font-size: 32px;
+
+  color: #0284c7;
+}
+
+.stat p {
+
+  font-size: 13px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:800px) {
+
+  nav {
+    padding: 0 4%;
+  }
+
+  nav a {
+
+    margin-left: 8px;
+
+    font-size: 10px;
+  }
+
+  .hero {
+
+    grid-template-columns: 1fr;
+
+    gap: 40px;
+
+    padding: 40px 0;
+  }
+
+  .hero-text h1 {
+
+    font-size: 48px;
+  }
+
+  .hero-text h2 {
+
+    font-size: 25px;
+  }
+
+  .hero-visual {
+
+    width: 100%;
+  }
+
+  .dashboard-card {
+
+    max-width: 100%;
+  }
+
+  .two-column,
+  .detail-grid {
+
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav>
+
+  <div class="logo">
+    FINTRACE
+  </div>
+
+  <div>
+
+    <a onclick="showPage('home')">
+      Home
+    </a>
+
+    <a onclick="showPage('upload')">
+      Upload Data
+    </a>
+
+    <a onclick="showPage('analysis')">
+      AI Analysis
+    </a>
+
+    <a onclick="showPage('verification')">
+      Verification
+    </a>
+
+    <a onclick="showPage('report')">
+      Report
+    </a>
+
+  </div>
+
+</nav>
+
+
+<!-- =====================================================
+     HOME
+===================================================== -->
+
+<section id="home" class="page active">
+
+<div class="container">
+
+  <div class="hero">
+
+
+    <!-- LEFT -->
+
+    <div class="hero-text">
+
+      <div class="badge">
+        🤖 AI × ACCOUNTANT
+      </div>
+
+
+      <h1>
+        FIN<span>TRACE</span>
+      </h1>
+
+
+      <h2>
+        AI Menemukan Perbedaan,<br>
+        Akuntan Menemukan Alasannya.
+      </h2>
+
+
+      <p>
+
+        FINTRACE merupakan platform
+        edukatif-interaktif yang membantu
+        akuntan menemukan ketidaksesuaian
+        dalam data keuangan.
+
+      </p>
+
+
+      <p class="small-text">
+
+        AI membantu menemukan pola,
+        sementara akuntan tetap memeriksa
+        dan menentukan penyebabnya.
+
+      </p>
+
+
+      <div class="hero-buttons">
+
+        <button
+          class="primary"
+          onclick="showPage('upload')">
+
+          Mulai Analisis →
+
+        </button>
+
+
+        <button
+          class="secondary"
+          onclick="showPage('education')">
+
+          Pelajari Konsep
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- RIGHT — DASHBOARD -->
+
+    <div class="hero-visual">
+
+      <div class="dashboard-card">
+
+
+        <!-- HEADER -->
+
+        <div class="dashboard-header">
+
+          <div>
+
+            <small>
+              FINTRACE SCANNER
+            </small>
+
+            <h3>
+              Financial Analysis
+            </h3>
+
+          </div>
+
+
+          <div class="online">
+            ● Demo AI
+          </div>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="mini-data">
+
+          <div class="mini-item">
+
+            <span>
+              Transactions
+            </span>
+
+            <strong>
+              05
+            </strong>
+
+          </div>
+
+
+          <div class="mini-item">
+
+            <span>
+              Scanned
+            </span>
+
+            <strong>
+              100%
+            </strong>
+
+          </div>
+
+
+          <div class="mini-item warning">
+
+            <span>
+              Need Review
+            </span>
+
+            <strong>
+              02
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- PATTERN DETECTION -->
+
+        <div class="scan-box">
+
+          <div class="scan-icon">
+            🔍
+          </div>
+
+
+          <div>
+
+            <strong>
+              Pattern Detection
+            </strong>
+
+            <p>
+
+              FINTRACE menemukan data
+              yang perlu diperiksa.
+
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="analysis-bar">
+
+          <div class="bar-title">
+
+            <span>
+              Analysis Progress
+            </span>
+
+            <strong>
+              100%
+            </strong>
+
+          </div>
+
+
+          <div class="bar">
+
+            <div></div>
+
+          </div>
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <div class="status-card">
+
+          <div class="status-dot"></div>
+
+
+          <div>
+
+            <strong>
+              Analysis Complete
+            </strong>
+
+            <p>
+              2 transaksi perlu diverifikasi
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     UPLOAD DATA
+===================================================== -->
+
+<section id="upload" class="page">
+
+<div class="container">
+
+  <span class="badge">
+    STEP 01
+  </span>
+
+  <h2>
+    Financial Scanner
+  </h2>
+
+  <p>
+    Masukkan data transaksi untuk dianalisis
+    oleh FINTRACE.
+  </p>
+
+
+  <div class="upload-box">
+
+    <h3>
+      📁 Upload Data Keuangan
+    </h3>
+
+    <p>
+      Masukkan file CSV transaksi.
+    </p>
+
+
+    <input
+      type="file"
+      id="csvFile"
+      accept=".csv"
+    >
+
+
+    <br>
+
+
+    <button
+      class="primary"
+      onclick="uploadCSV()">
+
+      Upload CSV
+
+    </button>
+
+
+    <button
+      class="secondary"
+      onclick="useExample()">
+
+      Gunakan Data Contoh
+
+    </button>
+
+
+    <p
+      style="margin-top:20px;font-size:13px;">
+
+      Data contoh hanya digunakan
+      untuk demonstrasi FINTRACE.
+
+    </p>
+
+  </div>
+
+
+  <div id="dataPreview"></div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     AI ANALYSIS
+===================================================== -->
+
+<section id="analysis" class="page">
+
+<div class="container">
+
+
+  <div id="scanning">
+
+    <div class="scan">
+
+      <span class="badge">
+        STEP 02
+      </span>
+
+
+      <h2>
+        🔍 FINTRACE sedang menganalisis...
+      </h2>
+
+
+      <div class="scanner"></div>
+
+
+      <div class="scan-list">
+
+        <div>
+          ✓ Scanning transactions...
+        </div>
+
+        <div>
+          ✓ Checking duplicate data...
+        </div>
+
+        <div>
+          ✓ Comparing transaction amounts...
+        </div>
+
+        <div>
+          ✓ Checking unusual values...
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div
+    id="analysisResult"
+    style="display:none;">
+
+    <span class="badge">
+      STEP 03
+    </span>
+
+
+    <h2>
+      Hasil Analisis
+    </h2>
+
+
+    <p>
+      FINTRACE menemukan beberapa data
+      yang perlu diperiksa.
+    </p>
+
+
+    <div class="card">
+
+      <div class="table-container">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Transaksi
+              </th>
+
+              <th>
+                Nominal
+              </th>
+
+              <th>
+                Status
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody id="resultTable"></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     DETAIL
+===================================================== -->
+
+<section id="detail" class="page">
+
+<div class="container">
+
+  <span class="badge">
+    AI DETECTION
+  </span>
+
+
+  <h2>
+    Apa yang Berbeda?
+  </h2>
+
+
+  <div id="detailContent"></div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     VERIFICATION
+===================================================== -->
+
+<section id="verification" class="page">
+
+<div class="container">
+
+  <span class="badge">
+    STEP 04
+  </span>
+
+
+  <h2>
+    🔎 Human Verification
+  </h2>
+
+
+  <p>
+    Sekarang giliran akuntan.
+  </p>
+
+
+  <div id="verificationContent"></div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     REPORT
+===================================================== -->
+
+<section id="report" class="page">
+
+<div class="container">
+
+  <span class="badge">
+    FINAL RESULT
+  </span>
+
+
+  <h2>
+    FINTRACE REPORT
+  </h2>
+
+
+  <p>
+    Ringkasan hasil analisis dan verifikasi.
+  </p>
+
+
+  <div class="stats">
+
+
+    <div class="stat">
+
+      <h3 id="totalStat">
+        0
+      </h3>
+
+      <p>
+        Total Data
+      </p>
+
+    </div>
+
+
+    <div class="stat">
+
+      <h3 id="matchStat">
+        0
+      </h3>
+
+      <p>
+        Data Sesuai
+      </p>
+
+    </div>
+
+
+    <div class="stat">
+
+      <h3 id="checkStat">
+        0
+      </h3>
+
+      <p>
+        Perlu Diperiksa
+      </p>
+
+    </div>
+
+
+    <div class="stat">
+
+      <h3 id="verifiedStat">
+        0
+      </h3>
+
+      <p>
+        Telah Diverifikasi
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>
+      Kesimpulan Investigasi
+    </h3>
+
+    <br>
+
+
+    <p>
+
+      FINTRACE membantu menemukan transaksi
+      yang memiliki pola berbeda atau berulang.
+      Temuan tersebut kemudian diperiksa oleh
+      akuntan sebelum menentukan kesimpulan.
+
+    </p>
+
+
+    <br>
+
+
+    <button
+      class="primary"
+      onclick="resetApp()">
+
+      Mulai Analisis Baru
+
+    </button>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     EDUCATION
+===================================================== -->
+
+<section id="education" class="page">
+
+<div class="container">
+
+  <span class="badge">
+    EDUCATION
+  </span>
+
+
+  <h2>
+    AI × ACCOUNTANT
+  </h2>
+
+
+  <p>
+    AI dan akuntan memiliki peran yang berbeda
+    tetapi saling melengkapi.
+  </p>
+
+
+  <br>
+
+
+  <div class="two-column">
+
+
+    <!-- AI -->
+
+    <div class="column-card">
+
+      <h2>
+        🤖 AI
+      </h2>
+
+
+      <ul>
+
+        <li>
+          🔍 Mencari pola
+        </li>
+
+        <li>
+          📊 Membandingkan data
+        </li>
+
+        <li>
+          ⚠ Memberikan alert
+        </li>
+
+        <li>
+          ⚡ Memproses data dengan cepat
+        </li>
+
+      </ul>
+
+    </div>
+
+
+    <!-- ACCOUNTANT -->
+
+    <div class="column-card">
+
+      <h2>
+        👨‍💼 AKUNTAN
+      </h2>
+
+
+      <ul>
+
+        <li>
+          🧾 Memeriksa bukti
+        </li>
+
+        <li>
+          🧠 Memahami konteks
+        </li>
+
+        <li>
+          🔎 Menelusuri penyebab
+        </li>
+
+        <li>
+          ✓ Mengambil keputusan
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+
+  <div class="card center">
+
+    <h2>
+      AI + AKUNTAN
+    </h2>
+
+
+    <p>
+
+      "Bukan saling menggantikan,
+      tetapi saling melengkapi."
+
+    </p>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let transactions = [];
+
+
+const exampleData = [
+
+  {
+    id: "001",
+    date: "01/09/2026",
+    description: "Pembelian ATK",
+    amount: 500000
+  },
+
+  {
+    id: "002",
+    date: "02/09/2026",
+    description: "Pembelian ATK",
+    amount: 750000
+  },
+
+  {
+    id: "003",
+    date: "02/09/2026",
+    description: "Pembelian ATK",
+    amount: 750000
+  },
+
+  {
+    id: "004",
+    date: "03/09/2026",
+    description: "Transportasi",
+    amount: 300000
+  },
+
+  {
+    id: "005",
+    date: "04/09/2026",
+    description: "Pembelian ATK",
+    amount: 5000000
+  }
+
+];
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showPage(pageId) {
+
+  document
+    .querySelectorAll(".page")
+    .forEach(page => {
+
+      page.classList.remove("active");
+
+    });
+
+
+  document
+    .getElementById(pageId)
+    .classList.add("active");
+
+
+  window.scrollTo(0,0);
+
+}
+
+
+/* =====================================================
+   RUPIAH
+===================================================== */
+
+function rupiah(number) {
+
+  return new Intl.NumberFormat(
+    "id-ID",
+    {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0
+    }
+  ).format(number);
+
+}
+
+
+/* =====================================================
+   EXAMPLE DATA
+===================================================== */
+
+function useExample() {
+
+  transactions =
+    JSON.parse(
+      JSON.stringify(exampleData)
+    );
+
+
+  showPreview();
+
+}
+
+
+/* =====================================================
+   PREVIEW DATA
+===================================================== */
+
+function showPreview() {
+
+  let html = `
+
+    <div class="card">
+
+      <h3>
+        Data Berhasil Dimasukkan ✓
+      </h3>
+
+
+      <div class="table-container">
+
+        <table>
+
+          <tr>
+
+            <th>ID</th>
+
+            <th>Tanggal</th>
+
+            <th>Keterangan</th>
+
+            <th>Nominal</th>
+
+          </tr>
+
+
+          ${transactions.map(t => `
+
+            <tr>
+
+              <td>
+                ${t.id}
+              </td>
+
+              <td>
+                ${t.date}
+              </td>
+
+              <td>
+                ${t.description}
+              </td>
+
+              <td>
+                ${rupiah(t.amount)}
+              </td>
+
+            </tr>
+
+          `).join("")}
+
+        </table>
+
+      </div>
+
+
+      <br>
+
+
+      <button
+        class="primary"
+        onclick="startAnalysis()">
+
+        Mulai AI Analysis →
+
+      </button>
+
+    </div>
+
+  `;
+
+
+  document
+    .getElementById("dataPreview")
+    .innerHTML = html;
+
+}
+
+
+/* =====================================================
+   UPLOAD CSV
+===================================================== */
+
+function uploadCSV() {
+
+  const file =
+    document
+      .getElementById("csvFile")
+      .files[0];
+
+
+  if (!file) {
+
+    alert(
+      "Silakan pilih file CSV terlebih dahulu."
+    );
+
+    return;
+
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload = function(e) {
+
+    const lines =
+      e.target.result
+        .trim()
+        .split("\n");
+
+
+    transactions = [];
+
+
+    for (
+      let i = 1;
+      i < lines.length;
+      i++
+    ) {
+
+      const row =
+        lines[i].split(",");
+
+
+      if (row.length >= 4) {
+
+        transactions.push({
+
+          id: row[0].trim(),
+
+          date: row[1].trim(),
+
+          description: row[2].trim(),
+
+          amount:
+            parseInt(
+              row[3]
+                .replace(/[^\d]/g,"")
+            )
+
+        });
+
+      }
+
+    }
+
+
+    showPreview();
+
+  };
+
+
+  reader.readAsText(file);
+
+}
+
+
+/* =====================================================
+   START ANALYSIS
+===================================================== */
+
+function startAnalysis() {
+
+  if (transactions.length === 0) {
+
+    alert(
+      "Masukkan data terlebih dahulu."
+    );
+
+    return;
+
+  }
+
+
+  showPage("analysis");
+
+
+  document
+    .getElementById("scanning")
+    .style.display = "block";
+
+
+  document
+    .getElementById("analysisResult")
+    .style.display = "none";
+
+
+  setTimeout(() => {
+
+    document
+      .getElementById("scanning")
+      .style.display = "none";
+
+
+    document
+      .getElementById("analysisResult")
+      .style.display = "block";
+
+
+    analyzeData();
+
+  }, 2500);
+
+}
+
+
+/* =====================================================
+   AI RULE-BASED ANALYSIS
+===================================================== */
+
+function analyzeData() {
+
+  transactions.forEach(
+    (t,index) => {
+
+      t.status = "Sesuai";
+
+      t.reason =
+        "Data tidak menunjukkan pola yang perlu diperiksa.";
+
+      t.duplicate = false;
+
+      t.unusual = false;
+
+
+      /* DUPLICATE */
+
+      for (
+        let j = 0;
+        j < transactions.length;
+        j++
+      ) {
+
+        if (index !== j) {
+
+          const other =
+            transactions[j];
+
+
+          if (
+
+            t.date === other.date &&
+
+            t.description ===
+              other.description &&
+
+            t.amount ===
+              other.amount
+
+          ) {
+
+            t.status =
+              "Kemungkinan Duplikat";
+
+
+            t.reason =
+              `Transaksi #${other.id} memiliki tanggal, keterangan, dan nominal yang sama.`;
+
+
+            t.duplicate = true;
+
+          }
+
+        }
+
+      }
+
+
+      /* UNUSUAL AMOUNT */
+
+      if (t.amount >= 3000000) {
+
+        t.status =
+          "Perlu Diperiksa";
+
+
+        t.reason =
+          "Nominal transaksi lebih tinggi dibandingkan sebagian besar data contoh.";
+
+
+        t.unusual = true;
+
+      }
+
+    }
+  );
+
+
+  renderResults();
+
+}
+
+
+/* =====================================================
+   RESULT TABLE
+===================================================== */
+
+function renderResults() {
+
+  let table = "";
+
+
+  transactions.forEach(t => {
+
+    let color = "green";
+
+
+    if (t.status !== "Sesuai") {
+
+      color = "yellow";
+
+    }
+
+
+    table += `
+
+      <tr
+        class="clickable"
+        onclick="showDetail('${t.id}')">
+
+        <td>
+          #${t.id}
+        </td>
+
+        <td>
+          ${rupiah(t.amount)}
+        </td>
+
+        <td>
+
+          <span
+            class="status ${color}">
+
+            ${t.status}
+
+          </span>
+
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+
+  document
+    .getElementById("resultTable")
+    .innerHTML = table;
+
+}
+
+
+/* =====================================================
+   DETAIL
+===================================================== */
+
+function showDetail(id) {
+
+  const t =
+    transactions.find(
+      x => x.id === id
+    );
+
+
+  showPage("detail");
+
+
+  let extra = "";
+
+
+  if (t.duplicate) {
+
+    const duplicate =
+      transactions.find(
+        x =>
+          x.id !== t.id &&
+          x.date === t.date &&
+          x.description ===
+            t.description &&
+          x.amount === t.amount
+      );
+
+
+    extra = `
+
+      <div class="detail-grid">
+
+        <div class="detail-box">
+
+          <h3>
+            Transaksi #${duplicate.id}
+          </h3>
+
+          <p>
+            ${duplicate.description}
+          </p>
+
+          <strong>
+            ${rupiah(duplicate.amount)}
+          </strong>
+
+        </div>
+
+
+        <div class="detail-box">
+
+          <h3>
+            Transaksi #${t.id}
+          </h3>
+
+          <p>
+            ${t.description}
+          </p>
+
+          <strong>
+            ${rupiah(t.amount)}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <br>
+
+
+      <p>
+
+        Keduanya memiliki tanggal yang sama,
+        keterangan yang sama, dan nominal
+        yang sama.
+
+      </p>
+
+    `;
+
+  } else {
+
+    extra = `
+
+      <div class="detail-box">
+
+        <h3>
+          Nominal Tidak Biasa
+        </h3>
+
+        <p>
+
+          Transaksi ${t.id} memiliki
+          nominal ${rupiah(t.amount)}
+          yang cukup tinggi dibandingkan
+          sebagian besar data contoh.
+
+        </p>
+
+      </div>
+
+    `;
+
+  }
+
+
+  document
+    .getElementById("detailContent")
+    .innerHTML = `
+
+      <div class="card">
+
+        <h2>
+          TRANSAKSI #${t.id}
+        </h2>
+
+
+        <span class="status yellow">
+
+          ⚠ ${t.status}
+
+        </span>
+
+
+        <br>
+        <br>
+
+
+        ${extra}
+
+
+        <br>
+
+
+        <div class="card">
+
+          <h3>
+            🤖 Kesimpulan AI
+          </h3>
+
+          <br>
+
+          <p>
+
+            "${t.reason}
+
+            Data tetap perlu diperiksa
+            untuk memastikan penyebab sebenarnya."
+
+          </p>
+
+        </div>
+
+
+        <br>
+
+
+        <button
+          class="primary"
+          onclick="goVerification('${t.id}')">
+
+          Periksa Data →
+
+        </button>
+
+      </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   VERIFICATION
+===================================================== */
+
+function goVerification(id) {
+
+  showPage("verification");
+
+
+  const t =
+    transactions.find(
+      x => x.id === id
+    );
+
+
+  document
+    .getElementById("verificationContent")
+    .innerHTML = `
+
+      <div class="card">
+
+        <h2>
+          Transaksi #${t.id}
+        </h2>
+
+
+        <p>
+
+          Status AI:
+
+          <strong>
+            ${t.status}
+          </strong>
+
+        </p>
+
+
+        <br>
+
+
+        <h3>
+          Catatan Akuntan
+        </h3>
+
+
+        <textarea
+          id="note"
+          placeholder="Contoh: Perlu mencocokkan transaksi dengan bukti pembayaran.">
+        </textarea>
+
+
+        <button
+          class="green"
+          onclick="verify('${t.id}','Sesuai')">
+
+          ✓ Sesuai
+
+        </button>
+
+
+        <button
+          class="yellow"
+          onclick="verify('${t.id}','Perlu Bukti')">
+
+          ⚠ Perlu Bukti
+
+        </button>
+
+
+        <button
+          class="red"
+          onclick="verify('${t.id}','Tidak Sesuai')">
+
+          ✕ Tidak Sesuai
+
+        </button>
+
+      </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   VERIFY
+===================================================== */
+
+function verify(id,status) {
+
+  const t =
+    transactions.find(
+      x => x.id === id
+    );
+
+
+  t.verified = true;
+
+  t.finalStatus = status;
+
+
+  t.note =
+    document
+      .getElementById("note")
+      .value ||
+    "Belum ada catatan.";
+
+
+  alert(
+    `Transaksi #${id} berhasil diverifikasi sebagai "${status}".`
+  );
+
+
+  updateReport();
+
+
+  showPage("report");
+
+}
+
+
+/* =====================================================
+   REPORT
+===================================================== */
+
+function updateReport() {
+
+  const total =
+    transactions.length;
+
+
+  const verified =
+    transactions.filter(
+      t => t.verified
+    ).length;
+
+
+  const needCheck =
+    transactions.filter(
+      t => t.status !== "Sesuai"
+    ).length;
+
+
+  const match =
+    transactions.filter(
+      t => t.status === "Sesuai"
+    ).length;
+
+
+  document
+    .getElementById("totalStat")
+    .innerText = total;
+
+
+  document
+    .getElementById("matchStat")
+    .innerText = match;
+
+
+  document
+    .getElementById("checkStat")
+    .innerText = needCheck;
+
+
+  document
+    .getElementById("verifiedStat")
+    .innerText = verified;
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetApp() {
+
+  transactions = [];
+
+
+  document
+    .getElementById("dataPreview")
+    .innerHTML = "";
+
+
+  document
+    .getElementById("csvFile")
+    .value = "";
+
+
+  showPage("home");
+
+}
+
+</script>
+
+</body>
+</html>
